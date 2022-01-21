@@ -5,6 +5,8 @@ const Schema = require("./../models/lfsets")
 const botconfig = require("../config.json");
 const colorSchema = require("./../models/npcolor")
 const styleSchema = require("./../models/lfstyle")
+const upSchema = require("./../models/reactionup")
+const downSchema = require("./../models/reactiondown")
 
 module.exports = {
     name: "lf",
@@ -26,9 +28,12 @@ module.exports = {
                 const data = await Schema.findOne({ User: user.user.id });
                 const npcolor = await colorSchema.findOne({ User: user.user.id });
                 const color = npcolor.Color
-                //Reactions
-                const up = '👍'
-                const down = '👎'
+                //Up Reaction
+                const upReaction = await upSchema.findOne({ User: user.user.id });
+                const up = upReaction.Up
+                //Up Reaction
+                const downReaction = await downSchema.findOne({ User: user.user.id });
+                const down = downReaction.Down
                 //Code 
                 const lfstyle = await styleSchema.findOne({ User: user.user.id });
                 const style = lfstyle.Style
@@ -90,7 +95,7 @@ module.exports = {
                                             message.reply({ embeds: [embed] }).then(embedMessage => {
                                                 embedMessage.react(up)
                                                 embedMessage.react(down);
-                                            });
+                                            }).catch(e => console.log(e))
                                         } catch (e) {
                                             console.log(e)
                                         }
@@ -123,7 +128,7 @@ module.exports = {
                                             message.reply({ embeds: [embed] }).then(embedMessage => {
                                                 embedMessage.react(up)
                                                 embedMessage.react(down);
-                                            });
+                                            }).catch(e => console.log(e))
                                         } catch (e) {
                                             console.log(e)
                                         }
@@ -158,7 +163,7 @@ module.exports = {
                                             message.reply({ embeds: [embed] }).then(embedMessage => {
                                                 embedMessage.react(up)
                                                 embedMessage.react(down);
-                                            });
+                                            }).catch(e => console.log(e))
                                         } catch (e) {
                                             console.log(e)
                                         }
@@ -190,7 +195,7 @@ module.exports = {
                                             message.reply({ embeds: [embed] }).then(embedMessage => {
                                                 embedMessage.react(up)
                                                 embedMessage.react(down);
-                                            });
+                                            }).catch(e => console.log(e))
                                         } catch (e) {
                                             console.log(e)
                                         }
@@ -224,7 +229,7 @@ module.exports = {
                                             message.reply({ embeds: [embed] }).then(embedMessage => {
                                                 embedMessage.react(up)
                                                 embedMessage.react(down);
-                                            });
+                                            }).catch(e => console.log(e))
                                         } catch (e) {
                                             console.log(e)
                                         }
@@ -257,7 +262,7 @@ module.exports = {
                                             message.reply({ embeds: [embed] }).then(embedMessage => {
                                                 embedMessage.react(up)
                                                 embedMessage.react(down);
-                                            });
+                                            }).catch(e => console.log(e))
                                         } catch (e) {
                                             console.log(e)
                                         }
@@ -290,7 +295,7 @@ module.exports = {
                                             message.reply({ embeds: [embed] }).then(embedMessage => {
                                                 embedMessage.react(up)
                                                 embedMessage.react(down);
-                                            });
+                                            }).catch(e => console.log(e))
                                         } catch (e) {
                                             console.log(e)
                                         }
@@ -324,7 +329,7 @@ module.exports = {
                                             message.reply({ embeds: [embed] }).then(embedMessage => {
                                                 embedMessage.react(up)
                                                 embedMessage.react(down);
-                                            });
+                                            }).catch(e => console.log(e))
                                         } catch (e) {
                                             console.log(e)
                                         }
@@ -357,7 +362,7 @@ module.exports = {
                                             message.reply({ embeds: [embed] }).then(embedMessage => {
                                                 embedMessage.react(up)
                                                 embedMessage.react(down);
-                                            });
+                                            }).catch(e => console.log(e))
                                         } catch (e) {
                                             console.log(e)
                                         }
@@ -406,7 +411,7 @@ module.exports = {
                                             message.reply({ embeds: [embed] }).then(embedMessage => {
                                                 embedMessage.react(up)
                                                 embedMessage.react(down);
-                                            });
+                                            }).catch(e => console.log(e))
                                         } catch (e) {
                                             console.log(e)
                                         }
@@ -440,7 +445,7 @@ module.exports = {
                                             message.reply({ embeds: [embed] }).then(embedMessage => {
                                                 embedMessage.react(up)
                                                 embedMessage.react(down);
-                                            });
+                                            }).catch(e => console.log(e))
                                         } catch (e) {
                                             console.log(e)
                                         }
@@ -462,7 +467,7 @@ module.exports = {
                     .setTitle(`❌ Invalid LastFM ID/Not Set`)
                     .setDescription(`**You didn\'t set/specify a username.\n\`${p}lfset\` to set your LastFM username\n[Click Here](https://www.last.fm/join) to create a LastFM Account**`)
                     .setColor("RANDOM")
-                    .setFooter(`Moonlight | LastFM`)
+                    .setFooter(`Box | LastFM`)
                     .setTimestamp()
                 console.log(error);
                 message.reply({ embeds: [usernameEmbed] })
@@ -502,6 +507,26 @@ module.exports = {
                     new styleSchema({
                         User: message.author.id,
                         Style: '0',
+                    }).save();
+                }
+            })
+            upSchema.findOne({ User: message.author.id }, async (err, data) => {
+                if (data) {
+                    return;
+                } else {
+                    new upSchema({
+                        User: message.author.id,
+                        Up: "👍",
+                    }).save();
+                }
+            })
+            downSchema.findOne({ User: message.author.id }, async (err, data) => {
+                if (data) {
+                    return;
+                } else {
+                    new downSchema({
+                        User: message.author.id,
+                        Down: "👎",
                     }).save();
                 }
             })
@@ -564,7 +589,7 @@ module.exports = {
                     .setTitle(`❌ Invalid LastFM ID/Not Set`)
                     .setDescription(`**You didn\'t set/specify a username.\n\`${p}lfset\` to set your LastFM username\n[Click Here](https://www.last.fm/join) to create a LastFM Account**`)
                     .setColor("RANDOM")
-                    .setFooter(`Moonlight | LastFM`)
+                    .setFooter(`Box | LastFM`)
                     .setTimestamp()
                 console.log(error);
                 message.reply({ embeds: [usernameEmbed] });
@@ -628,7 +653,7 @@ module.exports = {
                     .setTitle(`❌ Invalid LastFM ID/Not Set`)
                     .setDescription(`**You didn\'t set/specify a username.\n\`${p}lfset\` to set your LastFM username\n[Click Here](https://www.last.fm/join) to create a LastFM Account**`)
                     .setColor("RANDOM")
-                    .setFooter(`Moonlight | LastFM`)
+                    .setFooter(`Box | LastFM`)
                     .setTimestamp()
                 console.log(error);
                 message.reply({ embeds: [usernameEmbed] });
@@ -692,7 +717,7 @@ module.exports = {
                     .setTitle(`❌ Invalid LastFM ID/Not Set`)
                     .setDescription(`**You didn\'t set/specify a username.\n\`${p}lfset\` to set your LastFM username\n[Click Here](https://www.last.fm/join) to create a LastFM Account**`)
                     .setColor("RANDOM")
-                    .setFooter(`Moonlight | LastFM`)
+                    .setFooter(`Box | LastFM`)
                     .setTimestamp()
                 console.log(error);
                 message.reply({ embeds: [usernameEmbed] });
@@ -756,7 +781,7 @@ module.exports = {
                     .setTitle(`❌ Invalid LastFM ID/Not Set`)
                     .setDescription(`**You didn\'t set/specify a username.\n\`${p}lfset\` to set your LastFM username\n[Click Here](https://www.last.fm/join) to create a LastFM Account**`)
                     .setColor("RANDOM")
-                    .setFooter(`Moonlight | LastFM`)
+                    .setFooter(`Box | LastFM`)
                     .setTimestamp()
                 console.log(error);
                 message.reply({ embeds: [usernameEmbed] })
@@ -820,7 +845,7 @@ module.exports = {
                     .setTitle(`❌ Invalid LastFM ID/Not Set`)
                     .setDescription(`**You didn\'t set/specify a username.\n\`${p}lfset\` to set your LastFM username\n[Click Here](https://www.last.fm/join) to create a LastFM Account**`)
                     .setColor("RANDOM")
-                    .setFooter(`Moonlight | LastFM`)
+                    .setFooter(`Box | LastFM`)
                     .setTimestamp()
                 console.log(error);
                 message.reply({ embeds: [usernameEmbed] })
@@ -884,7 +909,7 @@ module.exports = {
                     .setTitle(`❌ Invalid LastFM ID/Not Set`)
                     .setDescription(`**You didn\'t set/specify a username.\n\`${p}lfset\` to set your LastFM username\n[Click Here](https://www.last.fm/join) to create a LastFM Account**`)
                     .setColor("RANDOM")
-                    .setFooter(`Moonlight | LastFM`)
+                    .setFooter(`Box | LastFM`)
                     .setTimestamp()
                 console.log(error);
                 message.reply({ embeds: [usernameEmbed] })
@@ -951,7 +976,7 @@ module.exports = {
                     .setTitle(`❌ Invalid LastFM ID/Not Set`)
                     .setDescription(`**You didn\'t set/specify a username.\n\`${p}lfset\` to set your LastFM username\n[Click Here](https://www.last.fm/join) to create a LastFM Account**`)
                     .setColor("RANDOM")
-                    .setFooter(`Moonlight | LastFM`)
+                    .setFooter(`Box | LastFM`)
                     .setTimestamp()
                 console.log(error);
                 message.reply({ embeds: [usernameEmbed] })
@@ -1018,7 +1043,7 @@ module.exports = {
                     .setTitle(`❌ Invalid LastFM ID/Not Set`)
                     .setDescription(`**You didn\'t set/specify a username.\n\`${p}lfset\` to set your LastFM username\n[Click Here](https://www.last.fm/join) to create a LastFM Account**`)
                     .setColor("RANDOM")
-                    .setFooter(`Moonlight | LastFM`)
+                    .setFooter(`Box | LastFM`)
                     .setTimestamp()
                 console.log(error);
                 message.reply({ embeds: [usernameEmbed] })
@@ -1086,7 +1111,7 @@ module.exports = {
                     .setTitle(`❌ Invalid LastFM ID/Not Set`)
                     .setDescription(`**You didn\'t set/specify a username.\n\`${p}lfset\` to set your LastFM username\n[Click Here](https://www.last.fm/join) to create a LastFM Account**`)
                     .setColor("RANDOM")
-                    .setFooter(`Moonlight | LastFM`)
+                    .setFooter(`Box | LastFM`)
                     .setTimestamp()
                 console.log(error);
                 message.reply({ embeds: [usernameEmbed] })
@@ -1156,7 +1181,7 @@ module.exports = {
                     .setTitle(`❌ Invalid LastFM ID/Not Set`)
                     .setDescription(`**You didn\'t set/specify a username.\n\`${p}lfset\` to set your LastFM username\n[Click Here](https://www.last.fm/join) to create a LastFM Account**`)
                     .setColor("RANDOM")
-                    .setFooter(`Moonlight | LastFM`)
+                    .setFooter(`Box | LastFM`)
                     .setTimestamp()
                 console.log(error);
                 message.reply({ embeds: [usernameEmbed] })
@@ -1222,7 +1247,7 @@ module.exports = {
                     .setTitle(`❌ Invalid LastFM ID/Not Set`)
                     .setDescription(`**You didn\'t set/specify a username.\n\`${p}lfset\` to set your LastFM username\n[Click Here](https://www.last.fm/join) to create a LastFM Account**`)
                     .setColor("RANDOM")
-                    .setFooter(`Moonlight | LastFM`)
+                    .setFooter(`Box | LastFM`)
                     .setTimestamp()
                 console.log(error);
                 message.reply({ embeds: [usernameEmbed] })
@@ -1299,7 +1324,7 @@ module.exports = {
                     .setTitle(`❌ Invalid LastFM ID/Not Set`)
                     .setDescription(`**You didn\'t set/specify a username.\n\`${p}lfset\` to set your LastFM username\n[Click Here](https://www.last.fm/join) to create a LastFM Account**`)
                     .setColor("RANDOM")
-                    .setFooter(`Moonlight | LastFM`)
+                    .setFooter(`Box | LastFM`)
                     .setTimestamp()
                 console.log(error);
                 message.reply({ embeds: [usernameEmbed] })
@@ -1309,12 +1334,12 @@ module.exports = {
             const color = args[1]
             const noColor = new Discord.MessageEmbed()
                 .setAuthor(`Provide A Hexcode`, message.author.displayAvatarURL({ dynamic: true }))
-                .setFooter("Moonlight | LastFM")
+                .setFooter("Box | LastFM")
             if (!color) return message.reply({ embeds: [noColor] })
             const embed = new Discord.MessageEmbed()
                 .setColor(color)
                 .setAuthor(`LastFM NP Embed Color Set To: ${color}`, message.author.displayAvatarURL({ dynamic: true }))
-                .setFooter("Moonlight | LastFM")
+                .setFooter("Box | LastFM")
             colorSchema.findOne({ User: message.author.id }, async (err, data) => {
                 if (data) {
                     data.Color = color;
@@ -1334,13 +1359,13 @@ module.exports = {
                     .setColor('BLACK')
                     .setAuthor(`LastFM Embed Options`, message.author.displayAvatarURL({ dynamic: true }))
                     .setDescription('**[Style 1](https://cdn.discordapp.com/attachments/859335350621962250/870873065066745926/unknown.png) | [Style 2](https://cdn.discordapp.com/attachments/859335350621962250/870873144175525948/unknown.png) | [Style 3](https://cdn.discordapp.com/attachments/859335350621962250/870873222298624030/unknown.png)\n[Style 4](https://cdn.discordapp.com/attachments/859335350621962250/870873312497115156/unknown.png) | [Style 5](https://cdn.discordapp.com/attachments/859335350621962250/870880030778081290/unknown.png) | [Style 6](https://cdn.discordapp.com/attachments/859335350621962250/870880152735871016/unknown.png)\n[Style 7](https://cdn.discordapp.com/attachments/859335350621962250/870880244192641034/unknown.png) | [Style 8](https://cdn.discordapp.com/attachments/859335350621962250/870880327810302012/unknown.png) | [Style 9](https://cdn.discordapp.com/attachments/859335350621962250/870880413218930768/unknown.png)**')
-                    .setFooter("Moonlight | LastFM")]
+                    .setFooter("Box | LastFM")]
             })
             if (isNaN(args[1])) return message.reply(`Not A Valid Option!`);
             const embed = new MessageEmbed()
                 .setColor("BLACK")
                 .setAuthor(`Successfully Made Now Playing Embed To Style ${args[1]}`, message.author.displayAvatarURL({ dynamic: true }))
-                .setFooter("Moonlight | LastFM")
+                .setFooter("Box | LastFM")
             styleSchema.findOne({ User: message.author.id }, async (err, data) => {
                 if (data) {
                     data.Style = style;
@@ -1361,13 +1386,13 @@ module.exports = {
                     .setColor('BLACK')
                     .setAuthor(`LastFM Embed Options`, message.author.displayAvatarURL({ dynamic: true }))
                     .setDescription('**[Style 1](https://cdn.discordapp.com/attachments/859335350621962250/870873065066745926/unknown.png) | [Style 2](https://cdn.discordapp.com/attachments/859335350621962250/870873144175525948/unknown.png) | [Style 3](https://cdn.discordapp.com/attachments/859335350621962250/870873222298624030/unknown.png)\n[Style 4](https://cdn.discordapp.com/attachments/859335350621962250/870873312497115156/unknown.png) | [Style 5](https://cdn.discordapp.com/attachments/859335350621962250/870880030778081290/unknown.png) | [Style 6](https://cdn.discordapp.com/attachments/859335350621962250/870880152735871016/unknown.png)\n[Style 7](https://cdn.discordapp.com/attachments/859335350621962250/870880244192641034/unknown.png) | [Style 8](https://cdn.discordapp.com/attachments/859335350621962250/870880327810302012/unknown.png) | [Style 9](https://cdn.discordapp.com/attachments/859335350621962250/870880413218930768/unknown.png)**')
-                    .setFooter("Moonlight | LastFM")]
+                    .setFooter("Box | LastFM")]
             })
             if (isNaN(args[1])) return message.reply(`Not A Valid Option!`);
             const embed = new MessageEmbed()
                 .setColor("BLACK")
                 .setAuthor(`Successfully Made Now Playing Embed To Style ${args[1]}`, message.author.displayAvatarURL({ dynamic: true }))
-                .setFooter("Moonlight | LastFM")
+                .setFooter("Box | LastFM")
             styleSchema.findOne({ User: message.author.id }, async (err, data) => {
                 if (data) {
                     data.Style = style;
@@ -1440,6 +1465,139 @@ module.exports = {
 **unlink** Disconnect lastfm account
 `)
             message.reply({ embeds: [lastfm] })
+        } else if (subcmd === 'reactionup') {
+            let emoji = args[1];
+            const regexExp = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/gi;
+            let parseEmoji = Discord.Util.parseEmoji(emoji)
+            const noEmoji = new Discord.MessageEmbed()
+                .setAuthor('Mention An Emoji To Set As Your Reaction Up', message.author.displayAvatarURL({ dynamic: true }))
+                .setFooter("Box | LastFM")
+                .setColor('FF0000')
+            if (!emoji) return message.reply({ embeds: [noEmoji] })
+            if (regexExp.test(emoji)) {
+                const embed = new Discord.MessageEmbed()
+                    .setAuthor(`LastFM Reaction Up Set To: ${emoji}`, message.author.displayAvatarURL({ dynamic: true }))
+                    .setFooter("Box | LastFM")
+                upSchema.findOne({ User: message.author.id }, async (err, data) => {
+                    if (data) {
+                        data.Up = emoji;
+                        data.save();
+                    } else {
+                        new upSchema({
+                            User: message.author.id,
+                            Up: emoji,
+                        }).save();
+                    }
+                })
+                message.reply({ embeds: [embed] }).then(embedMessage => {
+                    embedMessage.react(emoji)
+                });
+            } else if (parseEmoji) {
+                let checking = await client.emojis.cache.find(x => x.id === parseEmoji.id);
+                if (!checking) return message.reply({
+                    embeds: [new Discord.MessageEmbed()
+                        .setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
+                        .setDescription('❌ **Emoji Does Not Belong To Any Of My Guilds**')
+                        .setColor('#FF0000')]
+                })
+                const embed = new Discord.MessageEmbed()
+                    .setAuthor(`LastFM Reaction Up Set To: ${emoji}`, message.author.displayAvatarURL({ dynamic: true }))
+                    .setFooter("Box | LastFM")
+                upSchema.findOne({ User: message.author.id }, async (err, data) => {
+                    if (data) {
+                        data.Up = emoji;
+                        data.save();
+                    } else {
+                        new upSchema({
+                            User: message.author.id,
+                            Up: emoji,
+                        }).save();
+                    }
+                })
+                message.reply({ embeds: [embed] }).then(embedMessage => {
+                    embedMessage.react(emoji)
+                });
+            };
+        } else if (subcmd === 'reactiondown') {
+            let emoji = args[1];
+            const regexExp = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/gi;
+            let parseEmoji = Discord.Util.parseEmoji(emoji)
+            const noEmoji = new Discord.MessageEmbed()
+                .setAuthor('Mention An Emoji To Set As Your Reaction Down', message.author.displayAvatarURL({ dynamic: true }))
+                .setFooter("Box | LastFM")
+                .setColor('FF0000')
+            if (!emoji) return message.reply({ embeds: [noEmoji] })
+            if (regexExp.test(emoji)) {
+                const embed = new Discord.MessageEmbed()
+                    .setAuthor(`LastFM Reaction Down Set To: ${emoji}`, message.author.displayAvatarURL({ dynamic: true }))
+                    .setFooter("Box | LastFM")
+                downSchema.findOne({ User: message.author.id }, async (err, data) => {
+                    if (data) {
+                        data.Down = emoji;
+                        data.save();
+                    } else {
+                        new downSchema({
+                            User: message.author.id,
+                            Down: emoji,
+                        }).save();
+                    }
+                })
+                message.reply({ embeds: [embed] }).then(embedMessage => {
+                    embedMessage.react(emoji)
+                });
+            } else if (emoji) {
+                let checking = await client.emojis.cache.find(x => x.id === parseEmoji.id);
+                if (!checking) return message.reply({
+                    embeds: [new Discord.MessageEmbed()
+                        .setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
+                        .setDescription('❌ **Emoji Does Not Belong To Any Of My Guilds**')
+                        .setColor('#FF0000')]
+                })
+                const embed = new Discord.MessageEmbed()
+                    .setAuthor(`LastFM Reaction Down Set To: ${emoji}`, message.author.displayAvatarURL({ dynamic: true }))
+                    .setFooter("Box | LastFM")
+                downSchema.findOne({ User: message.author.id }, async (err, data) => {
+                    if (data) {
+                        data.Down = emoji;
+                        data.save();
+                    } else {
+                        new downSchema({
+                            User: message.author.id,
+                            Down: emoji,
+                        }).save();
+                    }
+                })
+                message.reply({ embeds: [embed] }).then(embedMessage => {
+                    embedMessage.react(emoji)
+                });
+            };
+        } else if (subcmd === 'reactionreset') {
+            const embed = new Discord.MessageEmbed()
+                .setAuthor(`LastFM Reactions Have Been Reset`, message.author.displayAvatarURL({ dynamic: true }))
+                .setFooter("Box | LastFM")
+            downSchema.findOne({ User: message.author.id }, async (err, data) => {
+                if (data) {
+                    data.Down = '<:lavish_mid:850525470881218600>';
+                    data.save();
+                } else {
+                    new downSchema({
+                        User: message.author.id,
+                        Down: '<:lavish_mid:850525470881218600>',
+                    }).save();
+                }
+            })
+            upSchema.findOne({ User: message.author.id }, async (err, data) => {
+                if (data) {
+                    data.Up = '<:W_:850525389083508806>';
+                    data.save();
+                } else {
+                    new downSchema({
+                        User: message.author.id,
+                        Up: '<:W_:850525389083508806>',
+                    }).save();
+                }
+            })
+            message.reply({ embeds: [embed] })
         }
     }
 };
