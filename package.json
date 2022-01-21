@@ -3,10 +3,13 @@
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
-    "scripts": {
-        "start": "node index.js",
-        "test": "nodemon index.js"
-    },
+  "scripts": {
+    "start": "node index.js",
+    "test": "nodemon index.js"
+  },
+  "engines": {
+    "node": ">16.6.0"
+  },
     "keywords": [],
     "author": "",
     "license": "ISC",
