@@ -5,6 +5,8 @@ const Schema = require("./../models/lfsets")
 const botconfig = require("../config.json");
 const colorSchema = require("./../models/npcolor")
 const styleSchema = require("./../models/lfstyle")
+const upSchema = require("./../models/reactionup")
+const downSchema = require("./../models/reactiondown")
 
 module.exports = {
     name: "np",
@@ -458,7 +460,7 @@ module.exports = {
         catch (error) {
             const usernameEmbed = new Discord.MessageEmbed()
                 .setTitle(`❌ Invalid LastFM ID/Not Set`)
-                .setDescription(`**You didn\'t set/specify a username.\n\`${p}lfset\` to set your LastFM username\n[Click Here](https://www.last.fm/join) to create a LastFM Account**`)
+                .setDescription(`**You didn\'t set/specify a username.\n\`,lfset\` to set your LastFM username\n[Click Here](https://www.last.fm/join) to create a LastFM Account**`)
                 .setColor("RANDOM")
                 .setFooter(`Box | LastFM`)
                 .setTimestamp()
