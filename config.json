@@ -1,0 +1,8 @@
+{
+	"token": "OTM0MTYyMjE0NTk0Njg3MDI2.YesEWw.HktCBH5WILBJLwNwJ8CXvuS6Zto",
+	"prefix": ",",
+	"apiKey": "3af45e183bdfa8678953ef37ca2707f7",
+	"spotifyClientId": "1708405a7be541d39c51017eee014eb9",
+	"spotifyClientSecret": "be2e42498d1b48fd814d198b98b26c5f",
+	"mongooseConnectionString": "mongodb+srv://juicebox:juicebox999@cluster0.jmwgi.mongodb.net/test"
+}
