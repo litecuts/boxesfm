@@ -7,6 +7,6 @@ module.exports = {
         	.setColor(0x333333)
         	.setAuthor(user.username)
         	.setImage(user.avatarURL);
-    	message.channel.send(avatarEmbed);
+        message.channel.send(avatarEmbed);
 	},
 };
