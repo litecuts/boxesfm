@@ -16,7 +16,7 @@
     "dependencies": {
         "better-sqlite3": "^7.4.6",
         "discord.js": "^13.6.0",
-        "glob": "^7.1.7",
+        "glob": "^9.0.1",
         "mongoose": "^6.0.2",
         "request-promise": "^4.2.6",
         "spotify-web-api-node": "^5.0.2"
